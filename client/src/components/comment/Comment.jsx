@@ -63,13 +63,13 @@ function Comment({comment,socket}) {
         <div className="comment-container">
             <div className="comment-wapper">
                 <div className="comment-items">
-                   <Link to={`/profile/${comment.userId}`} style={{textDecoration:'none'}} > <img src={user.userImg || noAvatar} alt={user.userImg} className="comment-user-img" /></Link>
+                   <Link to={`/profile/${comment.userId}`} style={{textDecoration:'none'}} > <img src={user?.userImg || noAvatar} alt={user?.userImg} className="comment-user-img" /></Link>
                     <div className="comment" ref={srcollRef} >
                         <p className="comment-text" >
                             {comment.comment}
                         </p>
                         <span className="comment-name">
-                        <Link to={`/profile/${comment.userId}`} style={{textDecoration:'none'}} > <span>{user.username}</span> </Link>  
+                        <Link to={`/profile/${comment.userId}`} style={{textDecoration:'none'}} > <span>{user?.username}</span> </Link>  
                             <span className="time">{format(comment.createdAt)}</span>
                             <button className="btn" onClick={()=>setOpenDelCmt(!openDelCmt)} >
                                 <MoreHorizIcon fontSize="large"/>

@@ -20,7 +20,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors:{
-    origin:'http://18.183.191.193'
+	origin:'https://space-social.online'
   }
 
 })
@@ -116,7 +116,7 @@ io.on("connection", async (socket) => {
 
 // app use libraries
 app.use(cors({
-    origin:'http://18.183.191.193',       
+    origin:'https://space-social.online',       
     credentials: true,
 }))
 app.use(morgan('combined'))

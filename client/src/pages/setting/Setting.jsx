@@ -150,12 +150,13 @@ function Setting() {
                          <div className="name-items">
                              <input 
                              value={inputUsername}
-                                className="name-input"
+                              className="name-input"
                               type="text" 
                               placeholder={currentUser.username} 
                               onChange={(e)=>setInputUsername(e.target.value)}
                               required
                               maxLength={30}
+			      minLength={4}		 
                                />
                             <div className="btn-list">
                                  <button className="btn" onClick={handleCancel}>Cancel</button>
@@ -165,7 +166,7 @@ function Setting() {
                          :
                          <div className="name-items">
                              <input className="name-input" disabled type="text" placeholder={currentUser.username} />
-                             <button className="btn-edit"  onClick={()=>setEditUsername(true)}>EDIT</button>
+                             <button className="btn-edit" disabled  onClick={()=>setEditUsername(true)}>EDIT</button>
                          </div>
                          }
                      </div>

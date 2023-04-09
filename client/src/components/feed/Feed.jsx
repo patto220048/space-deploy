@@ -27,7 +27,7 @@ function Feed({type,paramId,socket,setOpenUpload,setOpenWarningPost,openMenuPost
     const   dispatch = useDispatch()
 
     const [posts, setPosts] = useState(null)
-    const [activeTab, setActiveTab] = useState(0)
+    const [activeTab, setActiveTab] = useState(1)
     // const [page, setPage] = useState(0)
     // console.log(page)
     useEffect(()=>{
