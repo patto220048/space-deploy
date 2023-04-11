@@ -24,7 +24,6 @@ import Home from './pages/home/Home';
 import Friends from './pages/friend/Friends';
 import Conversation from './pages/conversation/Conversation';
 
-
 function App() {
   const  {currentUser} = useSelector((state) => state.user)
   const [openSideBarMb, setOpenSideBarMb] = useState(false)
