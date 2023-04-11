@@ -31,12 +31,12 @@ function App() {
   const [openRightbar, setOpenRightbar] = useState(false)
   const dispatch = useDispatch()
   
-  const socketio = useRef(io('http://localhost:4000' ,{
+  const socketio = useRef(io('https://api.space-social.online/api' ,{
     autoConnect: false
  }) )
   
  useEffect(()=> {
-  socketio.current = (io('http://localhost:4000'))
+  socketio.current = (io('https://api.space-social.online/api'))
 },[])
 
  useEffect(()=>{
