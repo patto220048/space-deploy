@@ -20,7 +20,6 @@ const io = new Server(server, {
   cors:{
 	origin:'https://space-social.online'
   // origin:'http://localhost:3000'
-
   }
 
 })
