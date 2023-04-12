@@ -7,6 +7,8 @@ import axios from "axios";
 import Comment from "../comment/Comment";
 import ReactLoading from 'react-loading';
 import SendIcon from '@mui/icons-material/Send';
+import Other from "../other/Other";
+import Wapper from "../wapper/Wapper";
 
 function Comments({post,socket,focusCmt, setFocusCmt}) {
     const axiosInstance = axios.create({
@@ -137,15 +139,11 @@ function Comments({post,socket,focusCmt, setFocusCmt}) {
                     <Comment  comment={comment} key={index}/>
                 ))
                 }
-
-              
-
             </div>
            
-                
-        
         </div>
-        {/* <span className="more">. . . MORE</span> */}
+        {/* <span className="more" >Show more</span> */}
+     
         </>
     
         

@@ -9,14 +9,12 @@ const route = require('./route');
 
 
 //socket io
-let users=[]
 
 const http = require('http')
 
 const { Server } = require('socket.io')
 
 const server = http.createServer(app)
-
 
 const io = new Server(server, {
   cors:{
@@ -51,6 +49,7 @@ io.use((socket, next) => {
 
 io.on("connection", (socket) => {
   const users = [];
+
   for (let [id, socket] of io.of("/").sockets) {
     users.push({
       userID: id,
@@ -63,9 +62,9 @@ io.on("connection", (socket) => {
 
 
 io.on("connection", async (socket) => {
+ 
 
-
-
+  
  //test
   // socket.emit('test', {
   //   sessionId : socket.sessionId,

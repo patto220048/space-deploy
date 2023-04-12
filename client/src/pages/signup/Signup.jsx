@@ -30,33 +30,55 @@ function Signup() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [err, setErr] = useState('')
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
+  
+    const  validatePassword=(password) =>{
+        // Define validation rules for password
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+        return passwordRegex.test(password);
+      }
+    const validateEmail=(email) =>{
+        const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+        return emailRegex.test(email);
+    }
     const handleSignup= (e) => {
         e.preventDefault();
+
         dispatch(loginStart())
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode,errorMessage )
-            });
+        // createUserWithEmailAndPassword(auth, email, password)
+        //     .then((userCredential) => {
+        //         // Signed in 
+        //         const user = userCredential.user;
+        //         // ...
+        //     })
+        //     .catch((error) => {
+        //         const errorCode = error.code;
+        //         const errorMessage = error.message;
+        //         console.log(errorCode,errorMessage )
+        //     });
         try {
                 const fecthSignup = async() => {
                 try {
-                    const res = await axiosInstance.post('/auth/signup',{username,email,password})
-                    dispatch(loginSuccess(res.data))
-                    navigate(`/`)
+                    const validPassword = validatePassword(password);
+                    const emailPassword = validateEmail(email);
+                    if (validPassword && emailPassword === true){
+                        const res = await axiosInstance.post('/auth/signup',{username,email,password})
+                        dispatch(loginSuccess(res.data))
+                        navigate(`/`)
+                        
+                    }
+                    else if(validPassword===false){
+                        setErr("Password min 8 chars!")
+                    }
+                    else if(emailPassword===false){
+                        setErr("Email incorrect!")
+                    }
+
                     
-                } catch (er) {
-                    setErr("Error")
+                    
+                } catch (err) {
+                    setErr("Login failed!")
                     dispatch(loginFail())
                 }
                 
@@ -105,7 +127,7 @@ function Signup() {
                     <div className="right">
                         <h1>signup</h1>
                         <h2 className="err">{err}</h2>
-                        <form className="signup-form" >
+                        <form className="signup-form">
                             <div className="signup-input">
                                 <div className="username">
                                     <input 
@@ -113,7 +135,7 @@ function Signup() {
                                     name="username" 
                                     placeholder="username" 
                                     required
-                                    // pattern="" 
+                                    pattern="[A-Za-z0-9]{3,}" 
                                     minLength={3} 
                                     maxLength={16}
                                     onBlur ={()=>setFocused1(true)}
@@ -146,11 +168,13 @@ function Signup() {
                                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                     onBlur ={()=>setFocused3(true)}
                                     focused = {focused3.toString()}
-                                    onChange={(e)=>{setPassword(e.target.value)}}
-
+                                    onChange={e=>setPassword(e.target.value)}
+                                    value={password}
+                                    
+                                    
 
                                     />
-                                    <span className="valid">Password not valid ( min "8" characters or number, and one "A" and one "a" )</span>  
+                                    <span className="valid">Password not valid (min "8" characters or number, one uppercase and lowercase letter)</span>  
                                     <span className="watchPass" onClick={() =>setWatchPassword(!watchPassword)}>
                                         {watchPassword ? <RemoveRedEyeRoundedIcon/>:<VisibilityOffRoundedIcon/>}
                                         </span>

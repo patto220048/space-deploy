@@ -20,7 +20,6 @@ class CommentController{
             
         }
 
-
     }
     //get comments
     async getComment(req, res, next) {

@@ -23,6 +23,7 @@ import Sidebar from './layout/sidebar/Sidebar';
 import Home from './pages/home/Home';
 import Friends from './pages/friend/Friends';
 import Conversation from './pages/conversation/Conversation';
+import Wapper from './components/wapper/Wapper';
 
 function App() {
   const  {currentUser} = useSelector((state) => state.user)
@@ -60,14 +61,15 @@ function App() {
       }
     });
 
+    socketio.current.on('users', (users) => {
+      console.log(users)
+    })
 
-    socketio.current.on('users', (users) => console.log(users))
     
     //test 
 
     socketio.current.on('test', data=> console.log(data))
    
-    socketio.current.emit('addUser', currentUser?._id)
 
     socketio.current.on('getUsers' , user => {
       console.log(user)
@@ -80,11 +82,10 @@ function App() {
       <>
       <Navbar socket={socketio.current} setOpenSideBarMb= {setOpenSideBarMb} openSideBarMb={openSideBarMb} openRightbar={openRightbar} setOpenRightbar={setOpenRightbar}  />
         <div className='main'>
-         <Sidebar openSideBarMb ={openSideBarMb} setOpenSideBarMb={setOpenSideBarMb} />
-            <Outlet/>
-          {/* <Rightbar openRightbar={openRightbar}/> */}
-
-      </div>
+            <Sidebar openSideBarMb ={openSideBarMb} setOpenSideBarMb={setOpenSideBarMb} />
+                <Outlet/>
+              {/* <Rightbar openRightbar={openRightbar}/> */}
+        </div>
 
       </>
     )
