@@ -77,22 +77,18 @@ function Post({post,socket}) {
     //detele post
     const handleDelete = ()=>{
         const fectchDelete = async()=>{
-      
             try {
                 await axiosInstance.delete(`/post/delete/${post?._id}`)
-                handleDeleteImgFormFirebase(post?.imgPost)
-                alert("Post deleted successfully!!")
                 dispatch(deletePost(post._id))
+                alert("Post deleted successfully!!")
+                handleDeleteImgFormFirebase(post?.imgPost)
                 setOpenMenuPost(false)
                 setOpenWarningPost(false)
                 
             } catch (error) {
                 setOpenMenuPost(false);
-                alert("Opps! You just deleted only your post")
                 setOpenMenuPost(false)
                 setOpenWarningPost(false)
-              
-
             }
         }
         fectchDelete()
