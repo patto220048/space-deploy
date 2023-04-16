@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const Notification = new  Schema({
     
     type:{
-      type:String,
+      type: Number,
       require:true
     },
     senderId:{
@@ -24,10 +24,25 @@ const Notification = new  Schema({
     },
     senderImg:{
       type:String,
-      require:true
+  
 
-    }
+    },
+    postImg : {
+      type:String,
+    },
+    decs : {
+      type:String,
     
+    },
+    cmtId:{
+      type:String,
+    },
+    postId:{
+      type:String,
+    }
+
+
+ 
    
     
     
