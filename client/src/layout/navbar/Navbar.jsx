@@ -1,114 +1,158 @@
-import './navbar.scss'
+import './navbar.scss';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Search from '../../components/search/Search';
 import { async } from '@firebase/util';
 import axios from 'axios';
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import CloseIcon from '@mui/icons-material/Close';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-function Navbar({socket, setOpenSideBarMb, openSideBarMb , openRightbar, setOpenRightbar}) {
+function Navbar({ socket, setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar }) {
     const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL
-    })
-    const  {currentPost} = useSelector((state) => state.post)
-    const [openNotifi, setNotifi] = useState(false)
-    const [notifications, setNotifications] = useState([])
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
-    const logo = process.env.REACT_APP_PUBLIC_FOLDER + "logo.png" 
-    
-    // console.log(notifications)
-    // useEffect(() => {
-    //     const fectchNotifi = async()=>{
-    //         try {
-    //             const res = axiosInstance.get(`/notification/v1/get`)
-    //             setNotifications(res.data)
-    //         } catch (err) {
-    //             console.log(err.message)
-    //         }
-    //     }
-    //     fectchNotifi()
-    // },[])
-    useEffect(()=>{
-        socket?.on('getNotification', data=>
-          
-        setNotifications((prev)=>[...prev, data])
-        )
-    },[socket])
+        baseURL: process.env.REACT_APP_API_URL,
+        withCredentials: true,
+        headers: {
+            'Content-type': 'application/json',
+        },
+    });
+    const { currentPost } = useSelector((state) => state.post);
+    const [openNotifi, setOpenNotifi] = useState(false);
+    const [notifications, setNotifications] = useState([]);
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + 'no_avatar1.jpg';
+    const logo = process.env.REACT_APP_PUBLIC_FOLDER + 'logo.png';
+    useEffect(() => {
+        const fectchNotifi = async () => {
+            try {
+                const res = await axiosInstance.get(`/notification/get`);
+                setNotifications(res.data);
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+        fectchNotifi();
+    }, []);
 
-    const handleOpenNotifi= ()=>{
-        setNotifi(true)
-        
-    }
-    const handleCloseNot= ()=>{
-        setNotifi(false)
-        setNotifications([])
-        
-    }
-    const displayNotifications= (type)=>{
-        let action
-        if(type===1){
-            action = 'liked'
+    useEffect(() => {
+        socket?.on('getNotification', (data) => setNotifications((prev) => [...prev, data]));
+    }, [socket]);
+
+    const handleCloseNot = async () => {
+        setOpenNotifi(false);
+        try {
+            await axiosInstance.delete(`/notification/delAll`);
+        } catch (err) {
+            console.log(err.message);
         }
-        else if(type===2){
-            action = 'commented'
+        setNotifications([]);
+    };
+    const displayNotifications = (type) => {
+        let action;
+        if (type === 1) {
+            action = 'liked your post';
+        } else if (type === 2) {
+            action = 'commented your post';
+        } else if (type === 3) {
+            action = 'followed you';
         }
-        return action
+
+        return action;
+    };
+
+    const handleOpenNotifications = () => {
+        setOpenNotifi(!openNotifi)
+      
     }
 
-
-    return (  
+    return (
         <div className="nav-container">
             <div className="navbar">
-                <Link to="/" style={{textDecoration:'none'}}>
-                    
-                    <h1 className="logo"><img src={logo} alt="" />SPACE</h1>
-                </Link> 
+                <Link to="/" style={{ textDecoration: 'none' }}>
+                    <h1 className="logo">
+                        <img src={logo} alt="" />
+                        SPACE
+                    </h1>
+                </Link>
                 <div className="mobile-menu">
-                    <span onClick={()=>setOpenSideBarMb(!openSideBarMb)}><DensityMediumIcon/></span>
+                    <span onClick={() => setOpenSideBarMb(!openSideBarMb)}>
+                        <DensityMediumIcon />
+                    </span>
                 </div>
-                <Search/>
+                <Search />
                 <div className="mobile-menu">
-                    <span onClick={()=>setOpenRightbar(!openRightbar)}><PeopleAltIcon/></span>
+                    <span onClick={() => setOpenRightbar(!openRightbar)}>
+                        <PeopleAltIcon />
+                    </span>
                 </div>
+
                 <div className="nav-items">
                     <div className="nav-user">
                         <div className="nav-link">
-                            <button className='nav-link-btn'><MessageRoundedIcon/></button>
-                            <span className='count-left'>1</span>
-                            <button className='nav-link-btn' onClick={handleOpenNotifi}><NotificationsIcon/></button>
-                            <span className='count-right'>{notifications?.length}</span>
-                                
+                            <span className="nav-link-btn">
+                                <MessageRoundedIcon />
+                            </span>
+                            <span className="count-left">1</span>
+                            <span className="nav-link-btn" onClick={handleOpenNotifications}>
+                                <NotificationsIcon />
+                            </span>
+                            <span className="count-right">{notifications?.length}</span>
                         </div>
-                        <div className="notifi-options">
-                                   {openNotifi && 
-                                   <div className="notifi-items">
-                                    {
-                                    notifications?.map((notification,index)=>(  
-                                         <div className='items' key={index}>
-                                            <img src={notification.senderImg || noAvatar} alt="" />
-                                            <p> <span>{notification.senderName}</span>{displayNotifications(notification.type)} your post</p>
+                        {notifications.length === 0 ? (
+                            ''
+                        ) : (
+                            <div className="notifi-options">
+                                {openNotifi && (
+                                    <>
+                                        <div className="notifi-items">
+                                            {notifications?.map((notification, index) => (
+                                                <>
+                                                    <div className="items" key={index}>
+                                                        <Link
+                                                            to={`/profile/${notification.senderId}`}
+                                                            onClick={() => setOpenNotifi(false)}
+                                                        >
+                                                            <img src={notification.senderImg || noAvatar} alt="" />
+                                                        </Link>
+                                                        <p>
+                                                            <Link
+                                                                to={`/profile/${notification.senderId}`}
+                                                                style={{ textDecoration: 'none' }}
+                                                                onClick={() => setOpenNotifi(false)}
+                                                            >
+                                                                <span>{notification.senderName}</span>
+                                                            </Link>
+                                                            {displayNotifications(notification.type)}
+                                                        </p>
+                                                    </div>
+                                                    <div className="mini-post">
+                                                        {notification.postImg ? (
+                                                            <>
+                                                                <img src={notification.postImg} alt="" />
+                                                                <span>{notification.decs}</span>
+                                                            </>
+                                                        ) : (
+                                                            <span>{notification.decs}</span>
+                                                        )}
+                                                    </div>
+                                                </>
+                                            ))}
                                         </div>
-                                  
-                                    ))
-                                    
-                                }
-                                       
-                                            
-                                        <button className='close-btn' onClick={handleCloseNot}>CLose</button>
-                                    </div>
-                                    }
-                        </div>
-                       
+                                        <div className="btn">
+                                            <button className="close-btn" onClick={handleCloseNot}>
+                                                Delete all
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
-            
         </div>
     );
 }
