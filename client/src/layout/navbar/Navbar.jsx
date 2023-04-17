@@ -64,9 +64,8 @@ function Navbar({ socket, setOpenSideBarMb, openSideBarMb, openRightbar, setOpen
     };
 
     const handleOpenNotifications = () => {
-        setOpenNotifi(!openNotifi)
-      
-    }
+        setOpenNotifi(!openNotifi);
+    };
 
     return (
         <div className="nav-container">
@@ -109,11 +108,12 @@ function Navbar({ socket, setOpenSideBarMb, openSideBarMb, openRightbar, setOpen
                                     <>
                                         <div className="notifi-items">
                                             {notifications?.map((notification, index) => (
-                                                <>
-                                                    <div className="items" key={index}>
+                                                <div key={index}>
+                                                    <div className="items">
                                                         <Link
                                                             to={`/profile/${notification.senderId}`}
                                                             onClick={() => setOpenNotifi(false)}
+                                                           
                                                         >
                                                             <img src={notification.senderImg || noAvatar} alt="" />
                                                         </Link>
@@ -138,7 +138,7 @@ function Navbar({ socket, setOpenSideBarMb, openSideBarMb, openRightbar, setOpen
                                                             <span>{notification.decs}</span>
                                                         )}
                                                     </div>
-                                                </>
+                                                </div>
                                             ))}
                                         </div>
                                         <div className="btn">
