@@ -113,7 +113,6 @@ function Navbar({ socket, setOpenSideBarMb, openSideBarMb, openRightbar, setOpen
                                                         <Link
                                                             to={`/profile/${notification.senderId}`}
                                                             onClick={() => setOpenNotifi(false)}
-                                                           
                                                         >
                                                             <img src={notification.senderImg || noAvatar} alt="" />
                                                         </Link>
@@ -128,16 +127,21 @@ function Navbar({ socket, setOpenSideBarMb, openSideBarMb, openRightbar, setOpen
                                                             {displayNotifications(notification.type)}
                                                         </p>
                                                     </div>
-                                                    <div className="mini-post">
-                                                        {notification.postImg ? (
-                                                            <>
-                                                                <img src={notification.postImg} alt="" />
+                                                    <Link
+                                                        to={`/post/${notification.postId}`}
+                                                        style={{ textDecoration: 'none' }}
+                                                    >
+                                                        <div className="mini-post">
+                                                            {notification.postImg ? (
+                                                                <>
+                                                                    <img src={notification.postImg} alt="" />
+                                                                    <span>{notification.decs}</span>
+                                                                </>
+                                                            ) : (
                                                                 <span>{notification.decs}</span>
-                                                            </>
-                                                        ) : (
-                                                            <span>{notification.decs}</span>
-                                                        )}
-                                                    </div>
+                                                            )}
+                                                        </div>
+                                                    </Link>
                                                 </div>
                                             ))}
                                         </div>

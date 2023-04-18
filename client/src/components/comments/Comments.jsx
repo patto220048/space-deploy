@@ -1,5 +1,5 @@
 import './comments.scss';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
@@ -8,8 +8,10 @@ import ReactLoading from 'react-loading';
 import SendIcon from '@mui/icons-material/Send';
 import Other from '../other/Other';
 import Wapper from '../wapper/Wapper';
+import { Link } from 'react-router-dom';
+import { cmtFail, cmtStart, cmtSuccess, newCmt } from '../../redux/cmtSlice';
 
-function Comments({ post, socket, focusCmt, setFocusCmt }) {
+function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
     const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_API_URL,
         withCredentials: true,
@@ -17,13 +19,14 @@ function Comments({ post, socket, focusCmt, setFocusCmt }) {
             'Content-type': 'application/json',
         },
     });
+    const { currentCmt } = useSelector((state) => state.cmt);
     const { currentUser } = useSelector((state) => state.user);
     const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + 'no_avatar1.jpg';
     const [comments, setComments] = useState([]);
     const [desc, setDesc] = useState('');
     const [isloading, setIsLoading] = useState(false);
     const [decsSocket, setDecsSocket] = useState(null); //
-
+    const dispatch = useDispatch();
     //focus cmt
     const focus = useRef(null);
     useEffect(() => {
@@ -52,12 +55,15 @@ function Comments({ post, socket, focusCmt, setFocusCmt }) {
     useEffect(() => {
         const fectchComment = async () => {
             setIsLoading(true);
-
+            dispatch(cmtStart());
             try {
-                const res = await axiosInstance.get(`/comment/${post._id}/find`);
-                setComments(res.data);
+                const res = postDetail
+                    ? await axiosInstance.get(`/comment/${postDetail}/find/allComent`)
+                    : await axiosInstance.get(`/comment/${post._id}/find`);
+                dispatch(cmtSuccess(res.data));
                 setIsLoading(false);
             } catch (err) {
+                dispatch(cmtFail());
                 console.log(err.message);
             }
         };
@@ -72,13 +78,15 @@ function Comments({ post, socket, focusCmt, setFocusCmt }) {
                 decs: desc,
                 postId: post._id,
             });
+
             // socketio.current.emit("test1", {uid : currentUser._id, ssid :ssId, decs : 'hello world' } )
             try {
-                await axiosInstance.post(`/comment/create`, {
+                const res = await axiosInstance.post(`/comment/create`, {
                     postId: post?._id,
                     comment: desc,
                 });
                 setDesc('');
+                dispatch(newCmt(res.data));
                 if (currentUser._id != post.userId) {
                     await axiosInstance.post(`/notification/create`, {
                         senderId: currentUser._id,
@@ -88,7 +96,7 @@ function Comments({ post, socket, focusCmt, setFocusCmt }) {
                         type: type,
                         postImg: post.imgPost,
                         decs: post.desc,
-                        
+                        postId: post._id,
                     });
                 }
             } catch (error) {
@@ -140,11 +148,13 @@ function Comments({ post, socket, focusCmt, setFocusCmt }) {
                     {isloading ? (
                         <ReactLoading type={'cylon'} />
                     ) : (
-                        comments.map((comment, index) => <Comment comment={comment} key={index} />)
+                        currentCmt?.map((comment, index) => <Comment comment={comment} key={index} />)
                     )}
                 </div>
             </div>
-            {/* <span className="more" >Show more</span> */}
+            <Link to={`/post/${post._id}`} style={{ textDecoration: 'none' }}>
+                {post.commentCount > 5 && <span className="more">Show more</span>}
+            </Link>
         </>
     );
 }

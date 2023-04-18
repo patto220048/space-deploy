@@ -170,6 +170,7 @@
                                 font-size: 12px;
                                 text-overflow: ellipsis;
                                 cursor: pointer;
+                                color: $bgColor;
                             }
                             &:hover {
                                 transform: scaleY(1.1);

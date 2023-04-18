@@ -23,6 +23,7 @@ import Sidebar from './layout/sidebar/Sidebar';
 import Home from './pages/home/Home';
 import Friends from './pages/friend/Friends';
 import Conversation from './pages/conversation/Conversation';
+import DetailPost from './pages/detailPost/DetailPost';
 import Wapper from './components/wapper/Wapper';
 
 function App() {
@@ -142,6 +143,10 @@ function App() {
         { 
           path:"/message", 
           element: <Conversation socket={socketio.current}  openSideBarMb ={openSideBarMb} />
+        },
+        { 
+          path:"/post/:postId", 
+          element: <DetailPost/>
         }
       ]
     },

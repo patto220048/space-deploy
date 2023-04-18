@@ -8,7 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCmt } from "../../redux/cmtSlice";
 
 function Comment({comment,socket}) {
     const axiosInstance = axios.create({
@@ -18,13 +19,18 @@ function Comment({comment,socket}) {
         "Content-type": "application/json",
         },
     })
-    const  {currentUser} = useSelector((state) => state.user)
+    const {currentCmt} = useSelector((state) => state.cmt)
 
+    const {currentUser} = useSelector((state) => state.user)
+        
+    
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const srcollRef = useRef()
     const [openDelCmt, setOpenDelCmt] = useState(false)
     const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
     const [user ,setUser] = useState([])
+  
     const handleReport =()=> {
     }
     useEffect(()=>{
@@ -41,8 +47,6 @@ function Comment({comment,socket}) {
 
     },[comment.userId])
 
-    
-
     const  handleDelCmt = () =>{
         
         const fetchDelCmt = async()=>{
@@ -51,6 +55,11 @@ function Comment({comment,socket}) {
            try {
             setOpenDelCmt(false)
             await axiosInstance.delete(`/comment/${comment._id}/delete`)
+            dispatch(deleteCmt({
+                commentId: comment._id,
+                postId : comment.postId,
+                userId: comment.userId,
+            }))
             alert('Comment deleted successfully!!')
            } catch (error) {
             alert("Opps!! You just deleted your comment. ")

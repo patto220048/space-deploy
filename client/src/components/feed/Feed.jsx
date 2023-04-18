@@ -43,7 +43,9 @@ function Feed({type,paramId,socket,setOpenUpload,setOpenWarningPost,openMenuPost
     },{
         name: "#followed",
         link : '/followed'
-    }]
+    },
+
+]
     
     useEffect(()=>{
       const fecthPost = async() => {
@@ -52,7 +54,7 @@ function Feed({type,paramId,socket,setOpenUpload,setOpenWarningPost,openMenuPost
             const res = paramId 
                     ? await axiosInstance.get(`/post/profile/${paramId}`)
                     : await axiosInstance.get(`/post/${type}`)
-                        // setPosts(res.data)
+                    
             
             dispatch(postSuccess(res.data))
           } 

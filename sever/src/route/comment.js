@@ -9,7 +9,8 @@ router.post('/create',veryfiToken.verifyUser,commentController.createComment)
 router.get('/:postId/find',veryfiToken.verifyUser,commentController.getComment)
 //delete comment
 router.delete('/:idCmt/delete',veryfiToken.verifyUser,commentController.deleteComment)
-
+//get all cmt
+router.get('/:postId/find/allComent',veryfiToken.verifyUser,commentController.getAllComment)
 
 
 module.exports  = router
