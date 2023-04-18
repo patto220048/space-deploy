@@ -21,12 +21,6 @@ import DetailPost from './pages/detailPost/DetailPost';
 import Wapper from './components/wapper/Wapper';
 
 function App() {
-<<<<<<< HEAD
-    const { currentUser } = useSelector((state) => state.user);
-    const [openSideBarMb, setOpenSideBarMb] = useState(false);
-    const [openRightbar, setOpenRightbar] = useState(false);
-    const dispatch = useDispatch();
-=======
   const  {currentUser} = useSelector((state) => state.user)
   const [openSideBarMb, setOpenSideBarMb] = useState(false)
   const [openRightbar, setOpenRightbar] = useState(false)
