@@ -20,7 +20,7 @@ import WarningPost from '../warningPost/WarningPost';
 import IsLoading from '../loading/IsLoading';
 import EditPost from '../editPost/EditPost';
 
-function Post({ post, socket }) {
+function Post({ post, socket , postDetail}) {
     const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_API_URL,
         withCredentials: true,
@@ -70,11 +70,12 @@ function Post({ post, socket }) {
         const fectchDelete = async () => {
             try {
                 await axiosInstance.delete(`/post/delete/${post?._id}`);
-                dispatch(deletePost(post._id));
+                dispatch(deletePost(post?._id));
                 alert('Post deleted successfully!!');
                 handleDeleteImgFormFirebase(post?.imgPost);
                 setOpenMenuPost(false);
                 setOpenWarningPost(false);
+                navigate('/newpost');
             } catch (error) {
                 setOpenMenuPost(false);
                 setOpenMenuPost(false);
@@ -114,7 +115,7 @@ function Post({ post, socket }) {
         });
         const fetchLikePost = async () => {
             try {
-                currentPost.map(async (post, index) => {
+                currentPost?.map(async (post, index) => {
                     //socket handle like
 
                     if (post?._id === onePost._id) {
@@ -135,6 +136,7 @@ function Post({ post, socket }) {
                                     type: type,
                                     postImg: post.imgPost,
                                     decs: post.desc,
+                                    postId: post._id,
                                 });
                             }
                             setLike(like + 1);
@@ -185,7 +187,6 @@ function Post({ post, socket }) {
                 const res = await axiosInstance.put(`/post/update/${post?._id}`, {
                     imgPost: '',
                 });
-                console.log(res.data);
                 dispatch(
                     delImg({
                         postId: post._id,
@@ -253,7 +254,7 @@ function Post({ post, socket }) {
                                 </button>
                                 {openMenuPost && (
                                     <div className="option-menu">
-                                        {currentPost.some(
+                                        {currentPost?.some(
                                             (post) => post._id === onePost?._id && post.userId === currentUser._id,
                                         ) || currentUser.admin ? (
                                             <>
@@ -280,7 +281,7 @@ function Post({ post, socket }) {
                             )}
                         </div>
                         <div className="post-info">
-                            {!currentPost.some(
+                            {!currentPost?.some(
                                 (postId) => postId?._id === onePost?._id && postId?.like?.includes(currentUser._id),
                             ) ? (
                                 <span className="like-count">{post?.likes + like} like </span>
@@ -325,7 +326,7 @@ function Post({ post, socket }) {
                         </div>
                         <div className="line"></div>
 
-                        <Comments post={post} socket={socket} focusCmt={focusCmt} setFocusCmt={setFocusCmt} />
+                        <Comments postDetail={postDetail} post={post} socket={socket} focusCmt={focusCmt} setFocusCmt={setFocusCmt} />
                     </div>
                 </div>
             </div>

@@ -15,7 +15,7 @@ const http = require('http')
 const { Server } = require('socket.io')
 
 const server = http.createServer(app)
-
+const user = []
 const io = new Server(server, {
   cors:{
 	// origin:'https://space-social.online'
@@ -34,30 +34,29 @@ const removeUser = (socketId) =>{
 }
 const getUser = (userId) =>{
   return users.find(user => user.userId === userId)
-
 }
 //midelwear
-io.use((socket, next) => {
-  const sessionId = socket.handshake.auth.sessionId;
-  if (!sessionId) {
-    return next(new Error("invalid sessionId"));
-  }
-  socket.sessionId = sessionId;
-  next();
-});
+// io.use((socket, next) => {
+//   const sessionId = socket.handshake.auth.sessionId;
+//   if (!sessionId) {
+//     return next(new Error("invalid sessionId"));
+//   }
+//   socket.sessionId = sessionId;
+//   next();
+// });
 
-io.on("connection", (socket) => {
-  const users = [];
+// io.on("connection", (socket) => {
+//   const users = [];
 
-  for (let [id, socket] of io.of("/").sockets) {
-    users.push({
-      userID: id,
-      sessionId: socket.sessionId,
-    });
-  }
-  socket.emit("users", users);
+//   for (let [id, socket] of io.of("/").sockets) {
+//     users.push({
+//       userID: id,
+//       sessionId: socket.sessionId,
+//     });
+//   }
+//   socket.emit("users", users);
 
-});
+// });
 
 
 io.on("connection", async (socket) => {
@@ -70,44 +69,44 @@ io.on("connection", async (socket) => {
   // })
 
   // take currentUserId and soketid
-//  socket.on('addUser', (userId) =>{
-//       addUser(userId, socket.id)
-//       socket.emit('getUsers', users)  
+  socket.on('addUser', (userId) =>{
+        addUser(userId, socket.id)
+        socket.emit('getUsers', users)  
 
-//  })
+  })
 
  //message
-//  socket.on('sendMessage', ({senderId,receiverId, text }) =>{
-//     const receiver = getUser(receiverId)
+ socket.on('sendMessage', ({senderId,receiverId, text }) =>{
+    const receiver = getUser(receiverId)
 
-//     io.to(receiver?.socketId).emit('getMessage', {
-//       senderId,text,
-//     })
-//  })
+    io.to(receiver?.socketId).emit('getMessage', {
+      senderId,text,
+    })
+ })
 
 //commet
-  // socket.on('getCmt', ({userId, decs ,postId})=>{
-  //     const user = getUser(userId)
-  //     //respon cmt data for client
-  //     socket.emit("getDecs", {
-  //       user, decs ,postId
-  //     })
+  socket.on('getCmt', ({userId, decs ,postId})=>{
+      const user = getUser(userId)
+      //respon cmt data for client
+      socket.emit("getDecs", {
+        user, decs ,postId
+      })
         
-  // })
-  //    socket.on('sendNotification',({senderId,receiverId,senderName,senderImg,type})=>{
-  //       const receiver = getUser(receiverId)
-  //           socket.broadcast.to(receiver?.socketId).emit("getNotification",{
-  //               senderId,
-  //               senderName,
-  //               senderImg,
-  //               type,
+  })
+     socket.on('sendNotification',({senderId,receiverId,senderName,senderImg,type})=>{
+        const receiver = getUser(receiverId)
+            socket.broadcast.to(receiver?.socketId).emit("getNotification",{
+                senderId,
+                senderName,
+                senderImg,
+                type,
     
-  //           }) 
-  //  })
+            }) 
+   })
 
    socket.on('disconnect',()=>{
         console.log('some body disconnect')
-        // removeUser(socket.id)    
+        removeUser(socket.id)    
     })
 })
 

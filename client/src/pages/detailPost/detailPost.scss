@@ -1,1 +1,21 @@
-@import '../../gobal'
+@import '../../gobal';
+
+.container-detailPost{
+    flex: 4;
+    padding-left: 40px;
+    .wapper-detailPost{
+       
+        width: 70%;
+        margin: 0 auto;
+       
+        .post-mess{
+            color: $textColor;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            opacity: 0.3;
+        }
+    }
+    
+}
