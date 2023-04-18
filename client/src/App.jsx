@@ -1,16 +1,10 @@
-
-import './app.scss'
+import './app.scss';
 
 import { useEffect, useRef, useState } from 'react';
-import {
-  createBrowserRouter,
-  Navigate,
-  Outlet,
-  RouterProvider,
-} from "react-router-dom";
-import { useDispatch, useSelector} from 'react-redux';
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client';
 import { logout } from './redux/userSlice';
 
 import Login from './pages/login/Login';
@@ -27,147 +21,144 @@ import DetailPost from './pages/detailPost/DetailPost';
 import Wapper from './components/wapper/Wapper';
 
 function App() {
-  const  {currentUser} = useSelector((state) => state.user)
-  const [openSideBarMb, setOpenSideBarMb] = useState(false)
-  const [openRightbar, setOpenRightbar] = useState(false)
-  const dispatch = useDispatch()
-  
-  const socketio = useRef(io('http://localhost:4000' ,{
-    autoConnect: false
- }) )
-  
- useEffect(()=> {
-  socketio.current = (io('http://localhost:4000'))
-},[])
+    const { currentUser } = useSelector((state) => state.user);
+    const [openSideBarMb, setOpenSideBarMb] = useState(false);
+    const [openRightbar, setOpenRightbar] = useState(false);
+    const dispatch = useDispatch();
 
- useEffect(()=>{
+    const socketio = useRef(io('http://localhost:4000'));
 
-  const sessionId = localStorage.getItem("sessionID");
-  if (sessionId) {
-    socketio.current.auth = { sessionId };
-    socketio.current.connect();
-  }
- },[])
+    // useEffect(() => {
+    //     socketio.current.connect();
+    // }, []);
 
+    //  useEffect(()=>{
 
+    //   const sessionId = localStorage.getItem("sessionID");
+    //   if (sessionId) {
+    //     socketio.current.auth = { sessionId };
+    //     socketio.current.connect();
+    //   }
+    //  },[])
 
-  useEffect(()=>{
-    //login err
-    socketio.current.on("connect_error", (err) => {
-      if (err.message === "invalid sessionId") {
-          console.log('invalid sessionId')
-          dispatch(logout())
-      }else{
-        socketio.current.off("connect_error");
-      }
-    });
+    useEffect(() => {
+        //login err
+        // socketio.current.on("connect_error", (err) => {
+        //   if (err.message === "invalid sessionId") {
+        //       console.log('invalid sessionId')
+        //       dispatch(logout())
+        //   }else{
+        //     socketio.current.off("connect_error");
+        //   }
+        // });
 
-    socketio.current.on('users', (users) => {
-      console.log(users)
-    })
+        // socketio.current.on('users', (users) => {
+        //   console.log(users)
+        // })
 
-    
-    //test 
+        //test
 
-    socketio.current.on('test', data=> console.log(data))
-   
+        // socketio.current.on('test', data=> console.log(data))
 
-    socketio.current.on('getUsers' , user => {
-      console.log(user)
-    })
-  },[])  
+        socketio?.current.emit('addUser', currentUser?._id);
 
+        socketio?.current.on('getUsers', (user) => {
+            console.log(user);
+        });
+    }, [currentUser]);
 
-  const Layout= () => {
-    return (
-      <>
-      <Navbar socket={socketio.current} setOpenSideBarMb= {setOpenSideBarMb} openSideBarMb={openSideBarMb} openRightbar={openRightbar} setOpenRightbar={setOpenRightbar}  />
-        <div className='main'>
-            <Sidebar openSideBarMb ={openSideBarMb} setOpenSideBarMb={setOpenSideBarMb} />
-                <Outlet/>
-              {/* <Rightbar openRightbar={openRightbar}/> */}
-        </div>
+    const Layout = () => {
+        return (
+            <>
+                <Navbar
+                    socket={socketio.current}
+                    setOpenSideBarMb={setOpenSideBarMb}
+                    openSideBarMb={openSideBarMb}
+                    openRightbar={openRightbar}
+                    setOpenRightbar={setOpenRightbar}
+                />
+                <div className="main">
+                    <Sidebar openSideBarMb={openSideBarMb} setOpenSideBarMb={setOpenSideBarMb} />
+                    <Outlet />
+                    {/* <Rightbar openRightbar={openRightbar}/> */}
+                </div>
+            </>
+        );
+    };
 
-      </>
-    )
-  }
-
-  const ProtectRoute = ({children}) =>{
-    if(!currentUser){
-      return <Navigate to ="/login"/>   
-    }
-    return children
-  }
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <ProtectRoute><Layout/></ProtectRoute>,
-      children:[
-        {
-          path:"/",
-          element: <Home socket={socketio.current} openRightbar={openRightbar} type="random"  />
-        },
-        {
-          path:"/newpost",
-          element: <Home  type="newpost"/>
-        },
-        {
-          path:"/random",
-          element: <Home  type="random"/>
-        },
-        {
-          path:"/followed",
-          element: <Home  type="folowed"/>
-        },
-        {
-          path:"/profile/:userId",
-          element: <Profile openRightbar={openRightbar}/>
-        },
-        {
-          path:"/setting",
-          element: <Setting/>
-        },
-        { 
-          path:"/friend/:friendId", 
-          element: <Friends type= 'friend'/>
-        },
-        { 
-          path:"/follower/:friendId", 
-          element: <Friends type= 'follower'/>
-        },
-        { 
-          path:"/following/:friendId", 
-          element: <Friends type= 'following'/>
-        },
-        { 
-          path:"/message", 
-          element: <Conversation socket={socketio.current}  openSideBarMb ={openSideBarMb} />
-        },
-        { 
-          path:"/post/:postId", 
-          element: <DetailPost/>
+    const ProtectRoute = ({ children }) => {
+        if (!currentUser) {
+            return <Navigate to="/login" />;
         }
-      ]
-    },
-    {
-      path: "/login",
-      element: <Login socket={socketio.current}/>,
-    },
-    {
-      path: "/signup",
-      element: <Signup/>,
-    }, 
-   
-  
-  ]);
+        return children;
+    };
 
+    const router = createBrowserRouter([
+        {
+            path: '/',
+            element: (
+                <ProtectRoute>
+                    <Layout />
+                </ProtectRoute>
+            ),
+            children: [
+                {
+                    path: '/',
+                    element: <Home socket={socketio.current} openRightbar={openRightbar} type="random" />,
+                },
+                {
+                    path: '/newpost',
+                    element: <Home type="newpost" />,
+                },
+                {
+                    path: '/random',
+                    element: <Home type="random" />,
+                },
+                {
+                    path: '/followed',
+                    element: <Home type="folowed" />,
+                },
+                {
+                    path: '/profile/:userId',
+                    element: <Profile openRightbar={openRightbar} />,
+                },
+                {
+                    path: '/setting',
+                    element: <Setting />,
+                },
+                {
+                    path: '/friend/:friendId',
+                    element: <Friends type="friend" />,
+                },
+                {
+                    path: '/follower/:friendId',
+                    element: <Friends type="follower" />,
+                },
+                {
+                    path: '/following/:friendId',
+                    element: <Friends type="following" />,
+                },
+                {
+                    path: '/message',
+                    element: <Conversation socket={socketio.current} openSideBarMb={openSideBarMb} />,
+                },
+                {
+                    path: '/post/:postId',
+                    element: <DetailPost />,
+                },
+            ],
+        },
+        {
+            path: '/login',
+            element: <Login socket={socketio.current} />,
+        },
+        {
+            path: '/signup',
+            element: <Signup />,
+        },
+    ]);
 
-  return (   
-   
-    <RouterProvider router={router} />
-   
-  );
+    return <RouterProvider router={router} />;
 }
 
 export default App;

@@ -51,11 +51,11 @@ function Login({socket}) {
         e.preventDefault();
         dispatch(loginStart())
         // soket connection
-        const sessionId =  generateSessionId()
-        localStorage.setItem("sessionID", sessionId);
-        socket.auth = { sessionId };
-        socket.emit('sessionId', sessionId);
-        socket.connect();
+        // const sessionId =  generateSessionId()
+        // localStorage.setItem("sessionID", sessionId);
+        // socket.auth = { sessionId };
+        // socket.emit('sessionId', sessionId);
+        // socket.connect();
 
         const fecthLogin = async () =>{
            

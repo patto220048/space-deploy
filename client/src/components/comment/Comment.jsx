@@ -50,8 +50,6 @@ function Comment({comment,socket}) {
     const  handleDelCmt = () =>{
         
         const fetchDelCmt = async()=>{
-           
-
            try {
             setOpenDelCmt(false)
             await axiosInstance.delete(`/comment/${comment._id}/delete`)
@@ -61,6 +59,7 @@ function Comment({comment,socket}) {
                 userId: comment.userId,
             }))
             alert('Comment deleted successfully!!')
+            window.location.reload()
            } catch (error) {
             alert("Opps!! You just deleted your comment. ")
             setOpenDelCmt(false)

@@ -34,7 +34,7 @@ function Online({users}) {
     
     return ( 
         <>
-            { currentUser.friend.includes(friend._id) &&
+            { currentUser.friend.includes(friend?._id) &&
             <Link to = {`/profile/${friend._id}`} style={{textDecoration:'none'}}>
             <div className="online-items">
                 <img className="online-img" src={friend.userImg || noAvatar} alt="" />
