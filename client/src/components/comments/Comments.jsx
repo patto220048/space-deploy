@@ -44,6 +44,7 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
                 comment: data.decs,
                 postId: data?.postId,
                 createdAt: Date.now(),
+                
             });
         });
     }, []);
@@ -51,6 +52,11 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
     useEffect(() => {
         decsSocket?.postId && setComments((prev) => [...prev, decsSocket]);
     }, [decsSocket?.postId]);
+
+    // useEffect(() =>{
+
+    //     currentCmt && setComments(currentCmt)
+    // },[currentCmt])
 
     useEffect(() => {
         const fectchComment = async () => {
@@ -60,7 +66,8 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
                 const res = postDetail
                     ? await axiosInstance.get(`/comment/${postDetail}/find/allComent`)
                     : await axiosInstance.get(`/comment/${post._id}/find`);
-                dispatch(cmtSuccess(res.data));
+                    setComments(res.data);
+                    dispatch(cmtSuccess(res.data));
                 setIsLoading(false);
             } catch (err) {
                 dispatch(cmtFail());
@@ -82,11 +89,12 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
             // socketio.current.emit("test1", {uid : currentUser._id, ssid :ssId, decs : 'hello world' } )
             try {
                 const res = await axiosInstance.post(`/comment/create`, {
-                    postId: post?._id,
+                    postId: post?._id,  
                     comment: desc,
                 });
-                setDesc('');
-                dispatch(newCmt(res.data));
+                setDesc('');    
+                window.location.reload()
+                // dispatch(newCmt(res.data));
                 if (currentUser._id != post.userId) {
                     await axiosInstance.post(`/notification/create`, {
                         senderId: currentUser._id,
@@ -109,7 +117,6 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
     const handleClose = () => {
         focus.current.value = '';
     };
-
     return (
         <>
             <div className="comments-container">
@@ -148,7 +155,7 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
                     {isloading ? (
                         <ReactLoading type={'cylon'} />
                     ) : (
-                        currentCmt?.map((comment, index) => <Comment comment={comment} key={index} />)
+                        comments?.map((comment, index) => <Comment comment={comment} key={index} />)
                     )}
                 </div>
             </div>

@@ -39,8 +39,8 @@ function RequestFriend({users}) {
         const fecthAccept= async()=>{
             
             try{
-                await axiosInstance.put(`/user/accept/${user._id}`)
-                dispatch(friend(user._id))
+                await axiosInstance.put(`/user/accept/${user?._id}`)
+                dispatch(friend(user?._id))
             }
             catch(err){
                 console.log(err.message);
@@ -67,7 +67,7 @@ function RequestFriend({users}) {
     return ( 
         
         <>
-           { currentUser.pendding.includes(user._id) 
+           { currentUser.pendding.includes(user?._id) 
            ?
            <div className="suggest-friend">
                 <Link to = {`/profile/${user._id}`} style={{textDecoration:'none'}}>
