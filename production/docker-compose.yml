@@ -1,0 +1,26 @@
+services:
+  api:
+    build: 
+      context: ../sever
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+    container_name: api-sv
+    networks:
+      - social-net
+    volumes:
+      - ../sever:/usr/app/src
+    
+  nginx:
+    image: nginx:1.19-alpine
+    ports:
+      - 3000:80
+    networks:
+      - social-net
+    volumes:
+      - ../client/build:/usr/share/nginx/html
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+networks:
+  social-net:
+    driver: bridge
+

@@ -26,16 +26,13 @@ function App() {
   const [openRightbar, setOpenRightbar] = useState(false)
   const dispatch = useDispatch()
   
-  const socketio = useRef(io('https://api.space-social.online/api' ,{
+  const socketio = useRef(io(process.env.REACT_APP_API_URL,{
     autoConnect: false
- }) )
+ }) )   
   
  useEffect(()=> {
-  socketio.current = (io('https://api.space-social.online/api'))
+  socketio.current = (io(process.env.REACT_APP_API_URL))
 },[])
->>>>>>> 29cd5fa (main)
-
-    const socketio = useRef(io('https://api.space-social.online/api'));
 
     // useEffect(() => {
     //     socketio.current.connect();
