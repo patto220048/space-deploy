@@ -17,7 +17,7 @@ const server = http.createServer(app);
 const users = [];
 const io = new Server(server, {
   cors: {
-    origin: process.env.ORIGIN_CORS ||  "http://localhost:3000" 
+    origin: process.env.ORIGIN_CORS
   },
 });
 
@@ -111,7 +111,7 @@ io.on("connection", async (socket) => {
 // app use libraries
 
 app.use(cors({
-    origin: process.env.ORIGIN_CORS ||  "http://localhost:3000",
+    origin: process.env.ORIGIN_CORS,
     credentials: true,
   })
 );
