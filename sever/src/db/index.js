@@ -7,8 +7,6 @@ async function connect () {
         console.log("sever connect success");
     } catch (error){
         console.log("sever connect fail ");
-
-
     }
 
 };

@@ -16,17 +16,11 @@ const { Server } = require("socket.io");
 const server = http.createServer(app);
 const users = [];
 const io = new Server(server, {
-<<<<<<< HEAD
   cors: {
-    origin:'https://space-social.online'
-    // origin: "http://localhost:3000",
+    origin: process.env.ORIGIN_CORS ||  "http://localhost:3000" 
   },
 });
-=======
-  cors:{
-	origin:'https://space-social.online'
-  // origin:'http://localhost:3000'
->>>>>>> 29cd5fa (main)
+
 
 const addUser = (userId, socketId) => {
   !users.some((user) => user.userId === userId) &&
@@ -115,16 +109,9 @@ io.on("connection", async (socket) => {
 });
 
 // app use libraries
-<<<<<<< HEAD
-app.use(
-  cors({
-    origin:'https://space-social.online',
-    // origin: "http://localhost:3000",
-=======
+
 app.use(cors({
-    origin:'https://space-social.online',   
-    // origin:'http://localhost:3000',    
->>>>>>> 29cd5fa (main)
+    origin: process.env.ORIGIN_CORS ||  "http://localhost:3000",
     credentials: true,
   })
 );
