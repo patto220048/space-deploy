@@ -7,7 +7,7 @@ services:
       - 4000:4000
     container_name: api-sv
     environment:
-      - ORIGIN_CORS = http://localhost
+      - ORIGIN_CORS=http://localhost
     networks:
       - social-net
     expose:
