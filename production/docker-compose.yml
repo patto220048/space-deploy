@@ -7,7 +7,7 @@ services:
       - 4000:4000
     container_name: api-sv
     environment:
-      - ORIGIN_CORS = http://localhost
+      - ORIGIN_CORS = http://localhost:3000
     networks:
       - social-net
     expose:
@@ -16,7 +16,7 @@ services:
   nginx:
     image: nginx:1.19-alpine
     ports:
-      - 80:80
+      - 3000:80
     networks:
       - social-net
     volumes:
