@@ -16,7 +16,7 @@ import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import IsLoading from "../../components/loading/IsLoading";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-function Login({socket}) {
+function Login() {
     const axiosInstance = axios.create({
         baseURL : process.env.REACT_APP_API_URL,
         withCredentials: true,
@@ -50,13 +50,7 @@ function Login({socket}) {
     const handlelogin = (e) =>{
         e.preventDefault();
         dispatch(loginStart())
-        // soket connection
-        // const sessionId =  generateSessionId()
-        // localStorage.setItem("sessionID", sessionId);
-        // socket.auth = { sessionId };
-        // socket.emit('sessionId', sessionId);
-        // socket.connect();
-
+  
         const fecthLogin = async () =>{
            
         try {
@@ -75,12 +69,6 @@ function Login({socket}) {
     }
     const handleloginwithGG = () => {
         dispatch(loginStart())
-         // soket connection
-         const sessionId =  generateSessionId()
-         localStorage.setItem("sessionID", sessionId);
-         socket.auth = { sessionId };
-         socket.emit('sessionId', sessionId);
-         socket.connect()
         signInWithPopup(auth, providerGG)
             .then((result)=>{
                 axiosInstance.post('/auth/withgg',{

@@ -11,7 +11,7 @@ import Wapper from '../wapper/Wapper';
 import { Link } from 'react-router-dom';
 import { cmtFail, cmtStart, cmtSuccess, newCmt } from '../../redux/cmtSlice';
 
-function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
+function Comments({ post, focusCmt, setFocusCmt, postDetail }) {
     const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_API_URL,
         withCredentials: true,
@@ -25,7 +25,6 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
     const [comments, setComments] = useState([]);
     const [desc, setDesc] = useState('');
     const [isloading, setIsLoading] = useState(false);
-    const [decsSocket, setDecsSocket] = useState(null); //
     const dispatch = useDispatch();
     //focus cmt
     const focus = useRef(null);
@@ -34,24 +33,6 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
         setFocusCmt(false);
         focusCmt && focus.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }, [focusCmt, focus]);
-
-    useEffect(() => {
-        // take data from sever
-        socket?.on('getDecs', (data) => {
-            console.log(data);
-            setDecsSocket({
-                userId: data.user.userId,
-                comment: data.decs,
-                postId: data?.postId,
-                createdAt: Date.now(),
-                
-            });
-        });
-    }, []);
-
-    useEffect(() => {
-        decsSocket?.postId && setComments((prev) => [...prev, decsSocket]);
-    }, [decsSocket?.postId]);
 
     // useEffect(() =>{
 
@@ -79,14 +60,7 @@ function Comments({ post, socket, focusCmt, setFocusCmt, postDetail }) {
 
     const handleCreateComment = (type) => {
         const createComment = async () => {
-            //soket io send data to server
-            socket?.emit('getCmt', {
-                userId: currentUser._id,
-                decs: desc,
-                postId: post._id,
-            });
-
-            // socketio.current.emit("test1", {uid : currentUser._id, ssid :ssId, decs : 'hello world' } )
+  
             try {
                 const res = await axiosInstance.post(`/comment/create`, {
                     postId: post?._id,  

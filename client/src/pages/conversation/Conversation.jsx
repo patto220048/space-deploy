@@ -10,7 +10,7 @@ import Sidebar from '../../layout/sidebar/Sidebar';
 
 
 
-function Message({socket}) {
+function Message() {
 
     const axiosInstance = axios.create({
         baseURL : process.env.REACT_APP_API_URL,
@@ -65,14 +65,6 @@ function Message({socket}) {
             sender: currentUser._id ,
             text: newMessage ,
         }
-        //socket io send data to sv
-        const receiverId = currentChat.members.find(member => member !== currentUser._id)
-        socket?.emit('sendMessage', {
-            senderId: currentUser._id,
-            receiverId: receiverId,
-            text: newMessage,
-        })
-
 
 
         try {
@@ -84,16 +76,6 @@ function Message({socket}) {
         setNewMessage('')
 
     }
-    // get data from server
-    useEffect(()=>{
-        socket?.on('getMessage', data =>{
-            setArrMessage({
-                sender:data.senderId,
-                text:data.text,
-                createdAt: Date.now(),
-            })
-        })
-    },[])
 
     useEffect(()=>{
         arrMessage  && currentChat?.members.includes(arrMessage.sender) && 

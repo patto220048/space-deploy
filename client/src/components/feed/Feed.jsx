@@ -10,7 +10,7 @@ import { postFail, postStart, postSuccess } from "../../redux/postSlice";
 import ReactLoading from 'react-loading';
 
 
-function Feed({type,paramId,socket,setOpenUpload,setOpenWarningPost,openMenuPost,setOpenMenuPost}) {
+function Feed({type,paramId,setOpenUpload,setOpenWarningPost,openMenuPost,setOpenMenuPost}) {
     const axiosInstance = axios.create({
         baseURL : process.env.REACT_APP_API_URL,
         withCredentials: true,
@@ -120,7 +120,6 @@ function Feed({type,paramId,socket,setOpenUpload,setOpenWarningPost,openMenuPost
                         posts?.map((post,index)=>(
                             <Post post={post}
                             key={index} 
-                            socket={socket} 
                             setOpenWarningPost={setOpenWarningPost}
                             openMenuPost={openMenuPost}
                             setOpenMenuPost={setOpenMenuPost}

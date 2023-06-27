@@ -7,108 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 const route = require("./route");
 
-//socket io
+
 
 const http = require("http");
 
-const { Server } = require("socket.io");
-
 const server = http.createServer(app);
-const users = [];
-const io = new Server(server, {
-  cors: {
-    origin: process.env.ORIGIN_CORS
-  },
-});
 
-
-const addUser = (userId, socketId) => {
-  !users.some((user) => user.userId === userId) &&
-    users.push({ userId, socketId });
-};
-const removeUser = (socketId) => {
-  users.filter((user) => {
-    user.socketId !== socketId;
-  });
-};
-const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
-};
-//midelwear
-// io.use((socket, next) => {
-//   const sessionId = socket.handshake.auth.sessionId;
-//   if (!sessionId) {
-//     return next(new Error("invalid sessionId"));
-//   }
-//   socket.sessionId = sessionId;
-//   next();
-// });
-
-// io.on("connection", (socket) => {
-//   const users = [];
-
-//   for (let [id, socket] of io.of("/").sockets) {
-//     users.push({
-//       userID: id,
-//       sessionId: socket.sessionId,
-//     });
-//   }
-//   socket.emit("users", users);
-
-// });
-
-io.on("connection", async (socket) => {
-  //test
-  // socket.emit('test', {
-  //   sessionId : socket.sessionId,
-  // })
-
-  // take currentUserId and soketid
-  socket.on("addUser", (userId) => {
-    addUser(userId, socket.id);
-    socket.emit("getUsers", users);
-  });
-
-  //message
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
-    const receiver = getUser(receiverId);
-
-    io.to(receiver?.socketId).emit("getMessage", {
-      senderId,
-      text,
-    });
-  });
-
-  //comment
-  socket.on("getCmt", ({ userId, decs, postId }) => {
-    const user = getUser(userId);
-    //respon cmt data for client
-    socket.emit("getDecs", {
-      user,
-      decs,
-      postId,
-    });
-  });
-  // socket.on(
-  //   "sendNotification",
-  //   ({ senderId, receiverId, senderName, senderImg, type }) => {
-  //     const receiver = getUser(receiverId);
-  //     socket.broadcast.to(receiver?.socketId).emit("getNotification", {
-  //       senderId,
-  //       senderName,
-  //       senderImg,
-  //       type,
-  //     });
-  //   }
-  // );
-
-  socket.on("disconnect", () => {
-    console.log("some body disconnect");
-    removeUser(socket.id);
-  });
-});
-
-// app use libraries
 
 app.use(cors({
     origin: process.env.ORIGIN_CORS,

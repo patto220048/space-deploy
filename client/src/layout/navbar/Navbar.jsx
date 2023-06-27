@@ -7,12 +7,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Search from '../../components/search/Search';
 import { async } from '@firebase/util';
 import axios from 'axios';
-import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import CloseIcon from '@mui/icons-material/Close';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-function Navbar({ socket, setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar }) {
+function Navbar(setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar ) {
     const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_API_URL,
         withCredentials: true,
@@ -36,10 +35,6 @@ function Navbar({ socket, setOpenSideBarMb, openSideBarMb, openRightbar, setOpen
         };
         fectchNotifi();
     }, []);
-
-    useEffect(() => {
-        socket?.on('getNotification', (data) => setNotifications((prev) => [...prev, data]));
-    }, [socket]);
 
     const handleCloseNot = async () => {
         setOpenNotifi(false);

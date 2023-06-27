@@ -11,7 +11,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCmt } from "../../redux/cmtSlice";
 
-function Comment({comment,socket}) {
+function Comment({comment}) {
     const axiosInstance = axios.create({
         baseURL : process.env.REACT_APP_API_URL,
         withCredentials: true,

@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { postFail, postStart, postSuccess, likes, deletePost, delImg, postUpdate } from '../../redux/postSlice';
-import { io } from 'socket.io-client';
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -20,7 +19,7 @@ import WarningPost from '../warningPost/WarningPost';
 import IsLoading from '../loading/IsLoading';
 import EditPost from '../editPost/EditPost';
 
-function Post({ post, socket , postDetail}) {
+function Post({ post , postDetail}) {
     const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_API_URL,
         withCredentials: true,
@@ -106,17 +105,10 @@ function Post({ post, socket , postDetail}) {
 
     //like post
     const handleLike = (type) => {
-        socket?.emit('sendNotification', {
-            senderId: currentUser._id,
-            receiverId: post.userId,
-            senderName: currentUser.username,
-            senderImg: currentUser.userImg,
-            type: type,
-        });
+
         const fetchLikePost = async () => {
             try {
                 currentPost?.map(async (post, index) => {
-                    //socket handle like
 
                     if (post?._id === onePost._id) {
                         if (post?.like.includes(currentUser._id)) {
@@ -326,7 +318,7 @@ function Post({ post, socket , postDetail}) {
                         </div>
                         <div className="line"></div>
 
-                        <Comments postDetail={postDetail} post={post} socket={socket} focusCmt={focusCmt} setFocusCmt={setFocusCmt} />
+                        <Comments postDetail={postDetail} post={post} focusCmt={focusCmt} setFocusCmt={setFocusCmt} />
                     </div>
                 </div>
             </div>

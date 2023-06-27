@@ -7,7 +7,7 @@ import Feed from "../../components/feed/Feed";
 import Rightbar from "../../layout/rightbar/Rightbar";
 import Share from "../../components/share/Share";
 
-function Home({type,socket,openRightbar}) {
+function Home({type,openRightbar}) {
     
     const [openMenuPost, setOpenMenuPost] = useState(false)
     const [openUpload, setOpenUpload] = useState(false)
@@ -22,7 +22,6 @@ function Home({type,socket,openRightbar}) {
                     <Feed 
                     type = {type} 
                     setOpenUpload={setOpenUpload} 
-                    socket ={socket} 
                     openMenuPost={openMenuPost}
                     setOpenMenuPost={setOpenMenuPost}
                 
