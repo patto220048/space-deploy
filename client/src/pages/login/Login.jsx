@@ -41,12 +41,6 @@ function Login() {
     //watch password
     const [watchPassword, setWatchPassword] = useState(false)
 
-
-    const generateSessionId = () =>{
-        const sessionId = uuidv4(); // generate a random UUID
-        return sessionId;
-    }
-
     const handlelogin = (e) =>{
         e.preventDefault();
         dispatch(loginStart())
