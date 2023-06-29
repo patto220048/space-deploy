@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import CloseIcon from '@mui/icons-material/Close';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-function Navbar(setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar ) {
+function Navbar({setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar }) {
     const axiosInstance = axios.create({
         baseURL: process.env.REACT_APP_API_URL,
         withCredentials: true,
@@ -61,6 +61,9 @@ function Navbar(setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar )
     const handleOpenNotifications = () => {
         setOpenNotifi(!openNotifi);
     };
+    const isSideBarMb = () =>{
+        setOpenSideBarMb(!openSideBarMb)
+    }
 
     return (
         <div className="nav-container">
@@ -72,7 +75,7 @@ function Navbar(setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar )
                     </h1>
                 </Link>
                 <div className="mobile-menu">
-                    <span onClick={() => setOpenSideBarMb(!openSideBarMb)}>
+                    <span onClick={isSideBarMb}>
                         <DensityMediumIcon />
                     </span>
                 </div>
