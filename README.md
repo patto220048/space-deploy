@@ -10,7 +10,7 @@
 * Firebase
 * Redux
 * SCSS
-
+* Docker
 ## With client 
 
 In the project directory, you can run:
