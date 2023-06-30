@@ -13,13 +13,12 @@ import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg, logo} from "../../instance/imgAvatar"
 
 function Sidebar({openSideBarMb, setOpenSideBarMb}) {
     const  {currentUser} = useSelector((state) => state.user)
     const dispatch = useDispatch()
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL  + "no_avatar1.jpg" 
     const [active, setActive] = useState()
-
 
     const handleLogout = async () => {
         await axiosInstance.get('/auth/signout')

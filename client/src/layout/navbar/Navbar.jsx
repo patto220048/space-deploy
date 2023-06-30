@@ -12,12 +12,12 @@ import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import CloseIcon from '@mui/icons-material/Close';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg, logo} from "../../instance/imgAvatar"
+
 function Navbar({setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar }) {
     const { currentPost } = useSelector((state) => state.post);
     const [openNotifi, setOpenNotifi] = useState(false);
     const [notifications, setNotifications] = useState([]);
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + 'no_avatar1.jpg';
-    const logo = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + 'logo.png';
     useEffect(() => {
         const fectchNotifi = async () => {
             try {

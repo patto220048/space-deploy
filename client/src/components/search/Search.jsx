@@ -8,12 +8,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 
 function Search() {
     const  {currentUser} = useSelector((state) => state.user)
 
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
     const [users, setUsers] = useState([])
     const [query, setQuery] = useState('')
     const inputRef = useRef(null)

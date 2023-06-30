@@ -5,9 +5,9 @@ import './RequestFriend.scss'
 import {friend } from "../../redux/userSlice";
 import { Link } from 'react-router-dom';
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 function RequestFriend({users}) {
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
 
     const dispatch = useDispatch()
     const  {currentUser} = useSelector((state) => state.user)

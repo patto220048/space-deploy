@@ -7,8 +7,9 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../instance/instance"
 import Warning from "../../components/warningSetting/Warning";
 import Rightbar from "../../layout/rightbar/Rightbar";
+import { noAvatar, noBg, logo} from "../../instance/imgAvatar"
+
 function Setting() {  
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const warningRef = useRef()
