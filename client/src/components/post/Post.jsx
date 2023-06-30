@@ -19,6 +19,7 @@ import WarningPost from '../warningPost/WarningPost';
 import IsLoading from '../loading/IsLoading';
 import EditPost from '../editPost/EditPost';
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 function Post({ post , postDetail}) {
     const { currentUser } = useSelector((state) => state.user);
@@ -26,7 +27,6 @@ function Post({ post , postDetail}) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     ////// user ///////////
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + 'no_avatar1.jpg';
     const [user, setUser] = useState([]);
 
     const [onePost, setOnePost] = useState({});

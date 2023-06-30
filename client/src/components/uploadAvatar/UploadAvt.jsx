@@ -7,16 +7,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import { loginSuccess } from '../../redux/userSlice';
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 function UploadAvt({openUploadAvt,setOpenUploadAvt}) {
     //current user
     const  {currentUser} = useSelector((state) => state.user)
     const dispatch = useDispatch()
-
-    
-    // default avatar an bg
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
-    const noBg = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_bg2.png" 
 
     //upload avatar and bg
     const [inputs ,setIputs] = useState({})

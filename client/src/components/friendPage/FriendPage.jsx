@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './friendPage.scss'
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 function FriendPage({friendId}) {
     const [user, setUser] = useState({})
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
-
+    
     useEffect(()=>{
         const fetchUser = async() =>{
             try {

@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import './friendsProfile.scss'
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 
 function FriendsProfile({friendId}) {
     const [user, setUser] = useState({})
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER ||process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
     
     useEffect(()=>{
         const fecthUser = async()=>{

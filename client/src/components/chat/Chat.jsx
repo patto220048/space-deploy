@@ -4,11 +4,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import axiosInstance from "../../instance/instance"
-
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 function Chat({message,owner, friendId}) {
     const [user,setUser] = useState([])
     const  {currentUser} = useSelector((state) => state.user)
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
     useEffect(()=>{
         const fetchUser = async() =>{
             try {
