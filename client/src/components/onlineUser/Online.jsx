@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import './online.scss'
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 function Online({users}) {
     const [friend, setFriend] = useState({})
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
     const  {currentUser} = useSelector((state) => state.user)
  
     useEffect(()=>{

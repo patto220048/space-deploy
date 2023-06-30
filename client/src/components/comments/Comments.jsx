@@ -11,11 +11,11 @@ import Wapper from '../wapper/Wapper';
 import { Link } from 'react-router-dom';
 import { cmtFail, cmtStart, cmtSuccess, newCmt } from '../../redux/cmtSlice';
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 function Comments({ post, focusCmt, setFocusCmt, postDetail }) {
     const { currentCmt } = useSelector((state) => state.cmt);
     const { currentUser } = useSelector((state) => state.user);
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL  + 'no_avatar1.jpg';
     const [comments, setComments] = useState([]);
     const [desc, setDesc] = useState('');
     const [isloading, setIsLoading] = useState(false);

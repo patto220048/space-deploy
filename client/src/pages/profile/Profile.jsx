@@ -23,6 +23,7 @@ import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CakeIcon from '@mui/icons-material/Cake';
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg, logo} from "../../instance/imgAvatar"
 
 function Profile({ posts, openRightbar }) {
     const [openUpload, setOpenUpload] = useState(false);
@@ -31,9 +32,6 @@ function Profile({ posts, openRightbar }) {
     const dispatch = useDispatch();
     const paramId = useParams();
     const navigate = useNavigate();
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + 'no_avatar1.jpg';
-    const noBg = process.env.REACT_APP_PUBLIC_FOLDER + 'no_bg2.png';
-
     const [descProfile, setDescProfile] = useState('');
 
     const [openEditDesc, setOpenEditDesc] = useState(false);

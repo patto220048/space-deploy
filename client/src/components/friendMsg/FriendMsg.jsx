@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './friendMsg.scss'
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
 
 function FriendMsg({conversation}) {
     const  {currentUser} = useSelector((state) => state.user)
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
-
+   
     const [user, setUser] = useState(null)
 
 

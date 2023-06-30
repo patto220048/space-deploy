@@ -8,6 +8,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCmt } from "../../redux/cmtSlice";
 import axiosInstance from "../../instance/instance"
+import { noAvatar, noBg} from "../../instance/imgAvatar"
+
 function Comment({comment}) {
     const {currentCmt} = useSelector((state) => state.cmt)
     const {currentUser} = useSelector((state) => state.user)
@@ -15,7 +17,6 @@ function Comment({comment}) {
     const navigate = useNavigate()
     const srcollRef = useRef()
     const [openDelCmt, setOpenDelCmt] = useState(false)
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL  + "no_avatar1.jpg" 
     const [user ,setUser] = useState([])
   
     const handleReport =()=> {
