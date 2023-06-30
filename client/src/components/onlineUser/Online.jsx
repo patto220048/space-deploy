@@ -3,17 +3,11 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import './online.scss'
+import axiosInstance from "../../instance/instance"
 
 function Online({users}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     const [friend, setFriend] = useState({})
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
     const  {currentUser} = useSelector((state) => state.user)
  
     useEffect(()=>{

@@ -11,19 +11,13 @@ import { useSelector } from 'react-redux';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import CloseIcon from '@mui/icons-material/Close';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import axiosInstance from "../../instance/instance"
 function Navbar({setOpenSideBarMb, openSideBarMb, openRightbar, setOpenRightbar }) {
-    const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-            'Content-type': 'application/json',
-        },
-    });
     const { currentPost } = useSelector((state) => state.post);
     const [openNotifi, setOpenNotifi] = useState(false);
     const [notifications, setNotifications] = useState([]);
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + 'no_avatar1.jpg';
-    const logo = process.env.REACT_APP_PUBLIC_FOLDER + 'logo.png';
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + 'no_avatar1.jpg';
+    const logo = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + 'logo.png';
     useEffect(() => {
         const fectchNotifi = async () => {
             try {

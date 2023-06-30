@@ -6,21 +6,12 @@ import { useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Sidebar from '../../layout/sidebar/Sidebar';
+import axiosInstance from "../../instance/instance"
 
 
 
 
 function Message() {
-
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
-    const sessionId = localStorage.getItem("sessionID");
-
     const [conversation , setConversation] = useState([])
     const  {currentUser} = useSelector((state) => state.user)
     const [currentChat, setCurrentChat] = useState(null)

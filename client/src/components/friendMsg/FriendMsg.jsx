@@ -2,16 +2,11 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import './friendMsg.scss'
+import axiosInstance from "../../instance/instance"
+
 function FriendMsg({conversation}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     const  {currentUser} = useSelector((state) => state.user)
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
 
     const [user, setUser] = useState(null)
 

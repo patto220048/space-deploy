@@ -5,9 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {logout } from "../../redux/userSlice";
 import { logoutPost } from "../../redux/postSlice";
-
-
-
 import HomeIcon from '@mui/icons-material/Home';
 import GroupIcon from '@mui/icons-material/Group';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -15,14 +12,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import axiosInstance from "../../instance/instance"
 
 function Sidebar({openSideBarMb, setOpenSideBarMb}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL
-    })
     const  {currentUser} = useSelector((state) => state.user)
     const dispatch = useDispatch()
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL  + "no_avatar1.jpg" 
     const [active, setActive] = useState()
 
 

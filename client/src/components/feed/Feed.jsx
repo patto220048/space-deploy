@@ -8,16 +8,10 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { postFail, postStart, postSuccess } from "../../redux/postSlice";
 import ReactLoading from 'react-loading';
+import axiosInstance from "../../instance/instance"
 
 
 function Feed({type,paramId,setOpenUpload,setOpenWarningPost,openMenuPost,setOpenMenuPost}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     const  {currentUser} = useSelector((state) => state.user)
 
     const  {currentPost} = useSelector((state) => state.post)

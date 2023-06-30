@@ -4,16 +4,9 @@ import Rightbar from '../../layout/rightbar/Rightbar';
 import './detailPost.scss';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import axiosInstance from "../../instance/instance"
 
 function DetailPost() {
-    const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-            'Content-type': 'application/json',
-        },
-    });
-
     const [post, setPost] = useState(null);
 
     const postId = useParams();

@@ -15,15 +15,9 @@ import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import IsLoading from "../../components/loading/IsLoading";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import axiosInstance from "../../instance/instance"
 
-function Login() {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })  
+function Login() { 
     const isLoading = useSelector((state) => state.user.loading)
     const [resetPass, setResetPass] = useState(false)
     const [verifyEmail, setVerifyEmail] = useState(false)

@@ -10,18 +10,12 @@ import Other from '../other/Other';
 import Wapper from '../wapper/Wapper';
 import { Link } from 'react-router-dom';
 import { cmtFail, cmtStart, cmtSuccess, newCmt } from '../../redux/cmtSlice';
+import axiosInstance from "../../instance/instance"
 
 function Comments({ post, focusCmt, setFocusCmt, postDetail }) {
-    const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-            'Content-type': 'application/json',
-        },
-    });
     const { currentCmt } = useSelector((state) => state.cmt);
     const { currentUser } = useSelector((state) => state.user);
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + 'no_avatar1.jpg';
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL  + 'no_avatar1.jpg';
     const [comments, setComments] = useState([]);
     const [desc, setDesc] = useState('');
     const [isloading, setIsLoading] = useState(false);

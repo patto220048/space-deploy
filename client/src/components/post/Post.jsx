@@ -18,21 +18,15 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import WarningPost from '../warningPost/WarningPost';
 import IsLoading from '../loading/IsLoading';
 import EditPost from '../editPost/EditPost';
+import axiosInstance from "../../instance/instance"
 
 function Post({ post , postDetail}) {
-    const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-            'Content-type': 'application/json',
-        },
-    });
     const { currentUser } = useSelector((state) => state.user);
     const { currentPost } = useSelector((state) => state.post);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     ////// user ///////////
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + 'no_avatar1.jpg';
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + 'no_avatar1.jpg';
     const [user, setUser] = useState([]);
 
     const [onePost, setOnePost] = useState({});

@@ -5,18 +5,12 @@ import FriendsProfile from '../friendProfile/FriendsProfile';
 import axios from 'axios';
 import FriendPage from '../friendPage/FriendPage';
 import { Link } from 'react-router-dom';
+import axiosInstance from "../../instance/instance"
 
 function Friend({friendId}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     const [user, setUser] = useState({})
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
-    const noBg = process.env.REACT_APP_PUBLIC_FOLDER + "no_bg2.png" 
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL  + "no_avatar1.jpg" 
+    const noBg = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_bg2.png" 
 
     useEffect(()=>{
 

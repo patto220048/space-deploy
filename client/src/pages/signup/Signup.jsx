@@ -7,22 +7,12 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
-
-
 import { loginFail, loginStart, loginSuccess } from "../../redux/userSlice";
-
 //icon
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
-
+import axiosInstance from "../../instance/instance"
 function Signup() {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     //itype
     const textRef = useRef()
     //handle signup

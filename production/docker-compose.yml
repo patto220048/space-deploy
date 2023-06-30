@@ -8,6 +8,7 @@ services:
     container_name: api-sv
     environment:
       - ORIGIN_CORS=http://space-social.online
+      - ORIGIN_CORS_SSL=https://space-social.online
     networks:
       - social-net
     expose:

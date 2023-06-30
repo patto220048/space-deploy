@@ -4,31 +4,18 @@ import axios from "axios"
 import { useEffect, useRef, useState } from "react"
 import {format} from "timeago.js"
 import { Link, useNavigate } from "react-router-dom";
-
-
-
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCmt } from "../../redux/cmtSlice";
-
+import axiosInstance from "../../instance/instance"
 function Comment({comment}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     const {currentCmt} = useSelector((state) => state.cmt)
-
     const {currentUser} = useSelector((state) => state.user)
-        
-    
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const srcollRef = useRef()
     const [openDelCmt, setOpenDelCmt] = useState(false)
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL  + "no_avatar1.jpg" 
     const [user ,setUser] = useState([])
   
     const handleReport =()=> {

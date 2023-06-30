@@ -1,10 +1,11 @@
 import "./share.scss"
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from "react-redux";
-
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import MovieIcon from '@mui/icons-material/Movie';
+
+
 function Share({setOpenUpload}) {
     const  {currentUser} = useSelector((state) => state.user)   
     const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 

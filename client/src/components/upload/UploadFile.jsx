@@ -8,27 +8,18 @@ import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { postAdd } from "../../redux/postSlice";
-
-
 import PanoramaIcon from '@mui/icons-material/Panorama';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-
 import IsLoading from "../loading/IsLoading";
+import axiosInstance from "../../instance/instance"
 
 function Upload({openUpload, setOpenUpload,avatar}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     //
     const navigate = useNavigate()
     //
     const dispatch = useDispatch()
 
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL  + "no_avatar1.jpg" 
     const [img, setImg] = useState(undefined)
     const [inputs ,setInputs] = useState({})
     const [imgPercent, setImgPercent] = useState(0)

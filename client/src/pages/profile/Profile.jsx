@@ -22,15 +22,9 @@ import DoneIcon from '@mui/icons-material/Done';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import CakeIcon from '@mui/icons-material/Cake';
+import axiosInstance from "../../instance/instance"
 
 function Profile({ posts, openRightbar }) {
-    const axiosInstance = axios.create({
-        baseURL: process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-            'Content-type': 'application/json',
-        },
-    });
     const [openUpload, setOpenUpload] = useState(false);
     const [openUploadAvt, setOpenUploadAvt] = useState(false);
     const { currentUser } = useSelector((state) => state.user);

@@ -4,16 +4,10 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import axiosInstance from "../../instance/instance"
 
 
 function Friends({type}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     const paramId = useParams()
     const [user, setUser] = useState({})
     const [activeTab, setActiveTab] = useState(0)

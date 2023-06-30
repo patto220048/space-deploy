@@ -3,26 +3,20 @@ import { useEffect, useState } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import app from "../../firebase/firebase";
 import { useDispatch, useSelector } from "react-redux";
-
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import { loginSuccess } from '../../redux/userSlice';
+import axiosInstance from "../../instance/instance"
+
 function UploadAvt({openUploadAvt,setOpenUploadAvt}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
     //current user
     const  {currentUser} = useSelector((state) => state.user)
     const dispatch = useDispatch()
 
     
     // default avatar an bg
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
-    const noBg = process.env.REACT_APP_PUBLIC_FOLDER + "no_bg2.png" 
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
+    const noBg = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_bg2.png" 
 
     //upload avatar and bg
     const [inputs ,setIputs] = useState({})

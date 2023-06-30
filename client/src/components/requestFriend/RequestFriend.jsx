@@ -4,16 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import './RequestFriend.scss'
 import {friend } from "../../redux/userSlice";
 import { Link } from 'react-router-dom';
+import axiosInstance from "../../instance/instance"
 
 function RequestFriend({users}) {
-    const axiosInstance = axios.create({
-        baseURL : process.env.REACT_APP_API_URL,
-        withCredentials: true,
-        headers: {
-        "Content-type": "application/json",
-        },
-    })
-    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER + "no_avatar1.jpg" 
+    const noAvatar = process.env.REACT_APP_PUBLIC_FOLDER || process.env.REACT_APP_PUBLIC_FOLDER_SSL + "no_avatar1.jpg" 
 
     const dispatch = useDispatch()
     const  {currentUser} = useSelector((state) => state.user)
