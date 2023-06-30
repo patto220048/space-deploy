@@ -7,8 +7,6 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 const route = require("./route");
 
-
-
 const http = require("http");
 
 const server = http.createServer(app);

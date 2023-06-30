@@ -4,7 +4,7 @@ async function connect () {
 
     try{
         await mongoose.connect(process.env.MONGODB_URL);
-        console.log("sever connect success");
+        console.log("Sever connected with MongoDB");
     } catch (error){
         console.log("sever connect fail ");
     }
