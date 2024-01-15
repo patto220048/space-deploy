@@ -4,15 +4,14 @@ services:
       context: ../sever
       dockerfile: Dockerfile
     ports:
-      - 4000:4000
-    container_name: api-sv
+      - 5000:5000
+    container_name: api-sv-social
     environment:
-      - ORIGIN_CORS=http://space-social.online
-      - ORIGIN_CORS_SSL=https://space-social.online
+      -  ORIGIN_CORS_SSL=http://space-social.online
     networks:
       - social-net
     expose:
-      - 4000
+      - 5000
     
   nginx:
     image: nginx:1.19-alpine
