@@ -16,7 +16,7 @@ services:
   nginx:
     image: nginx:1.19-alpine
     ports:
-      - 80:80
+      - 8081:80
     networks:
       - social-net
     volumes:
