@@ -5,24 +5,24 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5000:5000
-    container_name: api-sv-social
+    container_name: api-sv-social-container
     environment:
-      -  ORIGIN_CORS_SSL=https://space-social.online
+      -  ORIGIN_CORS_SSL=http://space-social.online
     networks:
-      - social-net
+      - social-net-1
     expose:
       - 5000
     
   nginx:
     image: nginx:1.19-alpine
     ports:
-      - 8081:80
+      - 81:80
     networks:
-      - social-net
+      - social-net-1
     volumes:
-      - ../client/build:/usr/share/nginx/space
-      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ../client/build:/var/www/space
+      - ./default.conf:/etc/nginx/sites-available/space
 networks:
-  social-net:
+  social-net-1:
     driver: bridge
 
