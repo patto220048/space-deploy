@@ -20,7 +20,7 @@ services:
     networks:
       - social-net
     volumes:
-      - ../client/build:/usr/share/nginx/html
+      - ../client/build:/usr/share/nginx/space
       - ./default.conf:/etc/nginx/conf.d/default.conf
 networks:
   social-net:
